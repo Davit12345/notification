@@ -2,6 +2,7 @@ package com.example.demo.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Date;
 import java.util.Random;
 
 public class Util {
@@ -38,5 +39,14 @@ public class Util {
                 verificationCode  + "'\n"+ "With best regards NotificationService support team";
 
     }
+
+    public static  String Notification(String name, String message, Date date){
+        name = name.substring(0, 1).toUpperCase() + name.substring(1);
+
+        return "Hello dear " + name + " ,your notification is '" +
+                message  + "'\n"+ "Date"+date;
+
+    }
+
 
 }

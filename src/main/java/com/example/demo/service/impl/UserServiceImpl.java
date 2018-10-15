@@ -148,6 +148,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     @Transactional(readOnly = true)
     @Override
     public User getByEmail(String email) {
