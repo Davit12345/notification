@@ -21,7 +21,7 @@ import java.util.List;
 public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Autowired
     private NotificationRepository notificationRepository;
@@ -82,6 +82,8 @@ public class NotificationServiceImpl implements NotificationService {
         for (Notification notifications : notification) {
             System.out.println(notifications);
             notifications.setNotified(false);
+            User user= userRepository.findOne(notifications.getUser().getId());
+            System.out.println(user);
         }
         System.out.println(curentData);
 
