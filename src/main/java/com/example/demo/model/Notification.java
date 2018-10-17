@@ -26,15 +26,15 @@ public class Notification {
     private Date creationDate;
 
     @NotNull
-    @Size(min = 2,message = "Message must be min 2 characters")
+    @Size(min = 2, message = "Message must be min 2 characters")
     private String message;
 
     @NotNull
     @Enumerated
     private NotifyStatus notifyStatus;
 
-  //  @NotNull
-   @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm a z")
+    //  @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
     private Date reminedData;
 
 
@@ -55,6 +55,9 @@ public class Notification {
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private User user;
+
+
+
 
     public Date getReminedData() {
         return reminedData;

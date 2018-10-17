@@ -49,14 +49,17 @@ public class NotificationServiceImpl implements NotificationService {
 
         try {
             Notification notification = notificationRepository.findOne(id);
-//            if (notification.getUser().equals(user.getId())) {
+            if (notification.getUser().getId()!=(user.getId())) {
+                throw new NotFoundException("Not acsess this action");
+            }
+            if(notification.isDeleted()==true){
+                throw new NotFoundException("Not acsess this action");
+            }
 
             notification.setDeleted(true);
             notification.setNotifyStatus(NotifyStatus.NotNotify);
             notificationRepository.save(notification);
-//            } else {
-//                throw new NotFoundException("Not accses delete");
-//            }
+
 
         } catch (RuntimeException e) {
             throw new InternalErrorException("Something went wrong, please try later");
@@ -76,9 +79,38 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationRepository.getByUser(userId);
     }
 
+    @Override
+    public Notification geOneNotification(int nid, int userId) {
+        return notificationRepository.getByIdAndUser(nid, userId);
+    }
+
 
     @Transactional
-    @Scheduled(fixedRate = 1000 * 10)
+    @Override
+    public void updateNotification(Notification notification, User user) throws InternalErrorException, NotFoundException {
+        try {
+
+
+            Date date = new Date();
+            Notification notification1 = notificationRepository.getOne(notification.getId());
+
+            if (notification1.getUser().getId() != user.getId()) {
+                throw new NotFoundException("Not acsess this action");
+
+            }
+            notification1 = notification;
+            notification1.setUser(user);
+            notification1.setCreationDate(date);
+
+            notificationRepository.save(notification1);
+        } catch (RuntimeException e) {
+            throw new InternalErrorException("Something went wrong, please try later");
+        }
+    }
+
+
+    @Transactional
+    @Scheduled(fixedRate = 1000 * 60)
     @Override
     public void sendRemembers() {
         try {
@@ -91,10 +123,15 @@ public class NotificationServiceImpl implements NotificationService {
                 User user = userRepository.findOne(notifications.getUser().getId());
 
 
-
                 if (notifications.isSendEmail()) {
                     mailSenderClient.send(user.getEmail(), "Notification", Util.Notification(user.getName(), notifications.getMessage(), notifications.getReminedData()));
                     System.out.println(Util.Notification(user.getName(), notifications.getMessage(), notifications.getReminedData()));
+                }
+                if (notifications.isSendSms()) {
+                    System.out.println("Send SMS");
+                }
+                if (notifications.isSendPush()) {
+                    System.out.println("Send Push");
                 }
 
 

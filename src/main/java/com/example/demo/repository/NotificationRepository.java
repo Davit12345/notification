@@ -24,4 +24,7 @@ public interface NotificationRepository extends JpaRepository<Notification,Integ
     @Query(nativeQuery = true , value = "SELECT * FROM notification WHERE notified!=false AND remined_data<=:curentData AND deleted != true  " )
     List<Notification>  getAllCurentlyNotification(@Param("curentData") Date curentData);
 
+    @Query(nativeQuery = true , value = "SELECT * FROM notification WHERE user_id = :userId AND deleted != true AND id=:nid " )
+    Notification getByIdAndUser(@Param("nid") int id,@Param("userId") int userId);
+
 }

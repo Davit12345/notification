@@ -27,6 +27,7 @@ public class NotificationController {
     @Autowired
     private UserService userService;
 
+
     @PutMapping
     public ResponseEntity addNotification(@Valid @RequestBody Notification notification
             , Principal principal) throws InternalErrorException {
@@ -39,24 +40,43 @@ public class NotificationController {
 
 
     @GetMapping
-    public ResponseEntity AllMyNotifications(Principal principal) {
+    public ResponseEntity AllOneUserNotificationsNotDeleted(Principal principal) {
+
         User user = userService.getByEmail(principal.getName());
         List<Notification> notification = notificationService.getUserNotification(user.getId());
+
         return ResponseEntity.ok().body(notification);
     }
 
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable int id, Principal principal) throws NotFoundException, InternalErrorException {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleted(@PathVariable int id, Principal principal) throws NotFoundException, InternalErrorException {
 
         User user = userService.getByEmail(principal.getName());
-
-
         notificationService.deleteNotifay(id, user);
 
         return ResponseEntity.ok("sucsess delete one notification");
 
     }
 
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity GetOneNotification(@PathVariable int id, Principal principal) {
+
+        User user = userService.getByEmail(principal.getName());
+
+        return ResponseEntity.ok().body(notificationService.geOneNotification(id, user.getId()));
+    }
+
+
+
+    @PatchMapping
+    public ResponseEntity updateNotification(@RequestBody Notification notification, Principal principal) throws InternalErrorException, NotFoundException {
+
+        User user = userService.getByEmail(principal.getName());
+        notificationService.updateNotification(notification,user);
+        return ResponseEntity.ok("sucsses update Notification");
+
+    }
 
 }

@@ -33,7 +33,7 @@ public class UserController {
 
 
     @PutMapping
-    public ResponseEntity add(@Valid @RequestBody User user) {
+    public ResponseEntity addUser(@Valid @RequestBody User user) {
 
         try {
 

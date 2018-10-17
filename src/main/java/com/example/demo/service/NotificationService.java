@@ -13,12 +13,15 @@ public interface NotificationService {
 
     void add(Notification notification, User user) throws InternalErrorException;
 
-    void deleteNotifay(int id,User user) throws InternalErrorException, NotFoundException;
+    void deleteNotifay(int id, User user) throws InternalErrorException, NotFoundException;
 
     void update(Notification notification);
 
     List<Notification> getUserNotification(int userId);
 
+    Notification geOneNotification(int nid, int userId);
+
+  void  updateNotification(Notification notification,User user) throws InternalErrorException, NotFoundException;
 
 
     void sendRemembers();
