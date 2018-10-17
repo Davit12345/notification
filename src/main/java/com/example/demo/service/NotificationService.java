@@ -6,6 +6,7 @@ import com.example.demo.model.exceptions.InternalErrorException;
 import com.example.demo.model.exceptions.NotFoundException;
 
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 public interface NotificationService {
@@ -13,17 +14,15 @@ public interface NotificationService {
 
     void add(Notification notification, User user) throws InternalErrorException;
 
-    void deleteNotifay(int id, User user) throws InternalErrorException, NotFoundException;
-
-    void update(Notification notification);
+    void delete(int id, User user) throws InternalErrorException, NotFoundException, AccessDeniedException;
 
     List<Notification> getUserNotification(int userId);
 
     Notification geOneNotification(int nid, int userId);
 
-  void  updateNotification(Notification notification,User user) throws InternalErrorException, NotFoundException;
+  void  update(Notification notification,User user) throws InternalErrorException, NotFoundException;
 
 
-    void sendRemembers();
+
 
 }

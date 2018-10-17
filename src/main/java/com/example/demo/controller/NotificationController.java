@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.nio.file.AccessDeniedException;
 import java.security.Principal;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class NotificationController {
 
         User user = userService.getByEmail(principal.getName());
         notificationService.add(notification, user);
-        return ResponseEntity.ok("sucsses add notification");
+        return ResponseEntity.ok("success add notification");
 
     }
 
@@ -50,12 +51,12 @@ public class NotificationController {
 
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleted(@PathVariable int id, Principal principal) throws NotFoundException, InternalErrorException {
+    public ResponseEntity deleted(@PathVariable int id, Principal principal) throws NotFoundException, InternalErrorException, AccessDeniedException {
 
         User user = userService.getByEmail(principal.getName());
-        notificationService.deleteNotifay(id, user);
+        notificationService.delete(id, user);
 
-        return ResponseEntity.ok("sucsess delete one notification");
+        return ResponseEntity.ok("success delete one notification");
 
     }
 
@@ -74,8 +75,8 @@ public class NotificationController {
     public ResponseEntity updateNotification(@RequestBody Notification notification, Principal principal) throws InternalErrorException, NotFoundException {
 
         User user = userService.getByEmail(principal.getName());
-        notificationService.updateNotification(notification,user);
-        return ResponseEntity.ok("sucsses update Notification");
+        notificationService.update(notification,user);
+        return ResponseEntity.ok("success update Notification");
 
     }
 

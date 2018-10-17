@@ -16,23 +16,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.nio.file.AccessDeniedException;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
-    @Autowired
-    private UserRepository userRepository;
+
 
     @Autowired
     private NotificationRepository notificationRepository;
 
-    @Autowired
-    private MailSenderClient mailSenderClient;
 
-    @Transactional
+
+
     @Override
+    @Transactional
     public void add(Notification notification, User user) throws InternalErrorException {
         try {
             notification.setUser(user);
@@ -43,17 +43,17 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
 
-    @Transactional
     @Override
-    public void deleteNotifay(int id, User user) throws InternalErrorException, NotFoundException {
+    @Transactional
+    public void delete(int id, User user) throws InternalErrorException, NotFoundException, AccessDeniedException {
 
         try {
             Notification notification = notificationRepository.findOne(id);
-            if (notification.getUser().getId()!=(user.getId())) {
-                throw new NotFoundException("Not acsess this action");
+            if (notification.getUser().getId() != (user.getId())) {
+                throw new AccessDeniedException("Not access this action");
             }
-            if(notification.isDeleted()==true){
-                throw new NotFoundException("Not acsess this action");
+            if (notification.isDeleted() == true) {
+                throw new NotFoundException("Not access this action");
             }
 
             notification.setDeleted(true);
@@ -69,15 +69,10 @@ public class NotificationServiceImpl implements NotificationService {
 
 
     @Override
-    public void update(Notification notification) {
-
-    }
-
-
-    @Override
     public List<Notification> getUserNotification(int userId) {
         return notificationRepository.getByUser(userId);
     }
+
 
     @Override
     public Notification geOneNotification(int nid, int userId) {
@@ -85,9 +80,10 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
 
-    @Transactional
+
     @Override
-    public void updateNotification(Notification notification, User user) throws InternalErrorException, NotFoundException {
+    @Transactional
+    public void update(Notification notification, User user) throws InternalErrorException, NotFoundException {
         try {
 
 
@@ -108,37 +104,4 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
-
-    @Transactional
-    @Scheduled(fixedRate = 1000 * 60)
-    @Override
-    public void sendRemembers() {
-        try {
-            Date curentData = new Date();
-            List<Notification> notification = notificationRepository.getAllCurentlyNotification(curentData);
-
-            for (Notification notifications : notification) {
-                System.out.println(notifications);
-                notifications.setNotified(false);
-                User user = userRepository.findOne(notifications.getUser().getId());
-
-
-                if (notifications.isSendEmail()) {
-                    mailSenderClient.send(user.getEmail(), "Notification", Util.Notification(user.getName(), notifications.getMessage(), notifications.getReminedData()));
-                    System.out.println(Util.Notification(user.getName(), notifications.getMessage(), notifications.getReminedData()));
-                }
-                if (notifications.isSendSms()) {
-                    System.out.println("Send SMS");
-                }
-                if (notifications.isSendPush()) {
-                    System.out.println("Send Push");
-                }
-
-
-            }
-            System.out.println(curentData);
-        } catch (RuntimeException e) {
-            mailSenderClient.send("Admin@admin.admin", "Notification Project ", "There are problems");
-        }
-    }
 }
