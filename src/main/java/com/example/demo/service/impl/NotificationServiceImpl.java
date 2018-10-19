@@ -57,7 +57,6 @@ public class NotificationServiceImpl implements NotificationService {
             }
 
             notification.setDeleted(true);
-            notification.setNotifyStatus(NotifyStatus.NotNotify);
             notificationRepository.save(notification);
 
 

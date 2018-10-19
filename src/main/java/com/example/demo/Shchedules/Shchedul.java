@@ -27,7 +27,7 @@ public class Shchedul {
     @Autowired
     private MailSenderClient mailSenderClient;
 
-    @Scheduled(fixedRate = 1000 * 15)
+    @Scheduled(fixedRate = 1000 * 10)
     @Transactional
     public void sendRemembers() {
         try {

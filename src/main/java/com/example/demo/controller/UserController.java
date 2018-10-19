@@ -24,12 +24,6 @@ public class UserController {
     private UserService userService;
 
 
-    @GetMapping
-    public ResponseEntity goverifay() {
-        return ResponseEntity.ok().body("message");
-    }
-
-
 
 
     @PutMapping

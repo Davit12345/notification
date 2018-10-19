@@ -19,7 +19,7 @@ public interface NotificationRepository extends JpaRepository<Notification,Integ
 
 
 
-    @Query(nativeQuery = true , value = "SELECT * FROM notification WHERE notified!=false  AND deleted != true AND remined_data BETWEEN NOW()-1 AND NOW()+90" )
+    @Query(nativeQuery = true , value = "SELECT * FROM notification WHERE notified!=false  AND deleted != true AND remined_data BETWEEN NOW()-90 AND NOW()+90" )
     List<Notification> getAllCurrentlyNotification();
 
 

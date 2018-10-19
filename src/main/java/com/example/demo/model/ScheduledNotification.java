@@ -7,12 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-
 
 @Entity
-public class Notification {
+public class ScheduledNotification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +23,6 @@ public class Notification {
     @NotNull
     @Size(min = 2, message = "Message must be min 2 characters")
     private String message;
-
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date reminedData;
 
 
     @NotNull
@@ -47,40 +40,24 @@ public class Notification {
     private boolean deleted;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private User user;
 
 
-    public Date getReminedData() {
-        return reminedData;
-    }
+    private boolean sunday;
 
-    public void setReminedData(Date reminedData) {
-        this.reminedData = reminedData;
-    }
+    private boolean monday;
 
-    public boolean isDeleted() {
-        return deleted;
-    }
+    private boolean tuesday;
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
+    private boolean wednesday;
 
-    public boolean isNotified() {
-        return notified;
-    }
+    private boolean thursday;
 
-    public void setNotified(boolean notified) {
-        this.notified = notified;
-    }
+    private boolean friday;
 
-    public User getUser() {
-        return user;
-    }
+    private boolean saturday;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public int getId() {
         return id;
@@ -138,36 +115,93 @@ public class Notification {
         this.sendPush = sendPush;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Notification that = (Notification) o;
-        return id == that.id &&
-                notificationDate == that.notificationDate &&
-                sendEmail == that.sendEmail &&
-                sendSms == that.sendSms &&
-                sendPush == that.sendPush &&
-                notified == that.notified &&
-                deleted == that.deleted &&
-                Objects.equals(creationDate, that.creationDate) &&
-                Objects.equals(message, that.message) &&
-                Objects.equals(reminedData, that.reminedData) &&
-                Objects.equals(user, that.user);
+    public boolean isNotified() {
+        return notified;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, creationDate, message, reminedData, notificationDate, sendEmail, sendSms, sendPush, notified, deleted, user);
+    public void setNotified(boolean notified) {
+        this.notified = notified;
     }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isSunday() {
+        return sunday;
+    }
+
+    public void setSunday(boolean sunday) {
+        this.sunday = sunday;
+    }
+
+    public boolean isMonday() {
+        return monday;
+    }
+
+    public void setMonday(boolean monday) {
+        this.monday = monday;
+    }
+
+    public boolean isTuesday() {
+        return tuesday;
+    }
+
+    public void setTuesday(boolean tuesday) {
+        this.tuesday = tuesday;
+    }
+
+    public boolean isWednesday() {
+        return wednesday;
+    }
+
+    public void setWednesday(boolean wednesday) {
+        this.wednesday = wednesday;
+    }
+
+    public boolean isThursday() {
+        return thursday;
+    }
+
+    public void setThursday(boolean thursday) {
+        this.thursday = thursday;
+    }
+
+    public boolean isFriday() {
+        return friday;
+    }
+
+    public void setFriday(boolean friday) {
+        this.friday = friday;
+    }
+
+    public boolean isSaturday() {
+        return saturday;
+    }
+
+    public void setSaturday(boolean saturday) {
+        this.saturday = saturday;
+    }
+
 
     @Override
     public String toString() {
-        return "buildNotificationMessage{" +
+        return "ScheduledNotification{" +
                 "id=" + id +
                 ", creationDate=" + creationDate +
                 ", message='" + message + '\'' +
-                ", reminedData=" + reminedData +
                 ", notificationDate=" + notificationDate +
                 ", sendEmail=" + sendEmail +
                 ", sendSms=" + sendSms +
@@ -175,6 +209,13 @@ public class Notification {
                 ", notified=" + notified +
                 ", deleted=" + deleted +
                 ", user=" + user +
+                ", sunday=" + sunday +
+                ", monday=" + monday +
+                ", tuesday=" + tuesday +
+                ", wednesday=" + wednesday +
+                ", thursday=" + thursday +
+                ", friday=" + friday +
+                ", saturday=" + saturday +
                 '}';
     }
 }

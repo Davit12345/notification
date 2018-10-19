@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
     @Transactional
     @Override
     public void verify(String email, String verificationCode) throws InternalErrorException, TeapotException {

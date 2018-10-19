@@ -11,5 +11,5 @@ public interface UrlConstants {
 
     String NOTIFICATION_CONTROLLER_URL = "/notify";
 
-
+    String SCHEDULED_NOTIFICATION_CONTROLLER_URL = "/scheduled";
 }
